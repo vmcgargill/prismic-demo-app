@@ -18,3 +18,5 @@ This app uses the following dependancies:
 - React
 - prismic-reactjs
 - @prismicio/client
+
+![Prismic Demo](prismic-demo.png)
