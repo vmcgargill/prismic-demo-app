@@ -4,9 +4,20 @@
   border: 2px solid black;
 }
 
+.automobileCard {
+  border: 2px solid black;
+  height: 500px;
+  margin-bottom: 20px;
+}
+
 .coverIMG {
   max-width: 600px;
   max-height: 600px;
+  margin-bottom: 20px;
+}
+
+.carIMG {
+  max-height: 400px;
 }
 
 .footer {

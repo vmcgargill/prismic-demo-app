@@ -1,22 +1,40 @@
 import React from 'react';
 import Prismic from '@prismicio/client'
-import { Date, Link, RichText } from 'prismic-reactjs'
+import { RichText } from 'prismic-reactjs'
 import './App.css';
 
 function App() {
   const [home, setHomePage] = React.useState(null);
-  const [automobiles, seAutomobiles] = React.useState([]);
+  const [automobiles, seAutomobiles] = React.useState("");
   
   React.useEffect(() => {
     const apiEndpoint = 'https://the-demo-repository.cdn.prismic.io/api/v2'
     const Client = Prismic.client(apiEndpoint)
     const fetchData = async () => {
       const response = await Client.query(
-        Prismic.Predicates.at('document.type', 'home_page')
+        Prismic.Predicates.any('document.type', ['home_page', 'automobile'])
       )
       if (response) {
-        console.log(response)
-        setHomePage(response.results[0])
+        const homdData = response.results.filter(object => object.type === "home_page")[0]
+        setHomePage(homdData)
+        
+        const carList = response.results.filter(object => object.type === "automobile")
+        console.log(carList)
+        const carListItems = carList.map((car) => {
+          return (
+            <div className="col-sm-6 col-md-6 col-lg-6">
+              <div className="card automobileCard">
+                <img className="card-img-top carIMG" src={car.data.picture.url} alt="Car"></img>
+                <div className="card-body">
+                  <h1>{RichText.asText(car.data.title)}</h1>
+                  <RichText render={car.data.body} />
+                </div>
+              </div>
+            </div>
+          )
+        })
+        seAutomobiles(carListItems)
+
       }
     }
     fetchData()
@@ -29,10 +47,14 @@ function App() {
           <div>
             <h1>{RichText.asText(home.data.home_page)}</h1>
             <RichText render={home.data.description} />
-            <img alt='cover' src={home.data.picture.url} class="coverIMG" />
           </div>
         ) : <div>No content</div>
       }
+      <div className="container">
+        <div className="row">
+          {automobiles}
+        </div>
+      </div>
     </React.Fragment>
   )
 }
