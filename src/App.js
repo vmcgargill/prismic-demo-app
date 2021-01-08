@@ -42,6 +42,7 @@ function App() {
 
   return (
     <React.Fragment>
+      <p>GitHub Link: <a target="_blank" rel='noreferrer' href="https://github.com/vmcgargill/prismic-demo-app">https://github.com/vmcgargill/prismic-demo-app</a></p><br/>
       {
         home ? (
           <div>
